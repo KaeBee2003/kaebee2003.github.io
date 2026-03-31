@@ -15,7 +15,7 @@
       --bg:        #0a0d14;
       --bg-card:   #111520;
       --line:      rgba(255,255,255,0.07);
-      --accent:    #4f9eff;
+      --accent:    #6aabf7;
       --accent2:   #a78bfa;
       --text:      #e8eaf0;
       --muted:     #7a84a0;
@@ -51,15 +51,11 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 2rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; justify-content: flex-end; align-items: center;
       background: rgba(10,13,20,0.85);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
       transition: all 0.3s;
-    }
-    .nav-logo {
-      font-family: var(--font-mono); font-size: 1.4rem;
-      color: var(--accent); text-decoration: none; letter-spacing: 0.05em;
     }
     .nav-links { display: flex; gap: 3.2rem; list-style: none; }
     .nav-links a {
@@ -85,13 +81,13 @@
     .hero::before {
       content: ''; position: absolute; top: -20rem; right: -10rem;
       width: 70rem; height: 70rem;
-      background: radial-gradient(circle, rgba(79,158,255,0.12) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(106,171,247,0.1) 0%, transparent 60%);
       pointer-events: none;
     }
     .hero::after {
       content: ''; position: absolute; bottom: -10rem; left: -15rem;
       width: 60rem; height: 60rem;
-      background: radial-gradient(circle, rgba(167,139,250,0.08) 0%, transparent 60%);
+      background: radial-gradient(circle, rgba(167,139,250,0.07) 0%, transparent 60%);
       pointer-events: none;
     }
     .hero-inner { max-width: 120rem; margin: 0 auto; position: relative; z-index: 2; }
@@ -125,11 +121,11 @@
     .btn-primary:hover { background: var(--white); transform: translateY(-2px); }
     .btn-outline {
       display: inline-flex; align-items: center; gap: 0.8rem;
-      padding: 1.4rem 3.2rem; border: 1px solid rgba(79,158,255,0.4);
+      padding: 1.4rem 3.2rem; border: 1px solid rgba(106,171,247,0.4);
       color: var(--accent); font-family: var(--font-mono); font-size: 1.3rem;
       letter-spacing: 0.05em; text-decoration: none; transition: all 0.2s;
     }
-    .btn-outline:hover { border-color: var(--accent); background: rgba(79,158,255,0.06); transform: translateY(-2px); }
+    .btn-outline:hover { border-color: var(--accent); background: rgba(106,171,247,0.06); transform: translateY(-2px); }
 
     /* SECTIONS */
     section { padding: 10rem 4rem; }
@@ -158,6 +154,7 @@
       text-decoration: none; transition: all 0.2s; border-radius: 2px;
     }
     .contact-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .contact-pill svg { flex-shrink: 0; }
 
     .skills-group { margin-bottom: 3rem; }
     .skills-category {
@@ -188,10 +185,10 @@
     }
     .project-card::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(79,158,255,0.04), rgba(167,139,250,0.04));
+      background: linear-gradient(135deg, rgba(106,171,247,0.04), rgba(167,139,250,0.04));
       opacity: 0; transition: opacity 0.3s;
     }
-    .project-card:hover { border-color: rgba(79,158,255,0.35); transform: translateY(-4px); }
+    .project-card:hover { border-color: rgba(106,171,247,0.35); transform: translateY(-4px); }
     .project-card:hover::after { opacity: 1; }
     .project-number {
       font-family: var(--font-mono); font-size: 1rem; color: var(--accent);
@@ -208,7 +205,7 @@
     .project-highlights { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.4rem; }
     .highlight-chip {
       padding: 0.3rem 0.9rem;
-      background: rgba(79,158,255,0.08); border: 1px solid rgba(79,158,255,0.2);
+      background: rgba(106,171,247,0.08); border: 1px solid rgba(106,171,247,0.2);
       color: var(--accent); font-family: var(--font-mono); font-size: 1.1rem; border-radius: 2px;
     }
     .project-footer {
@@ -233,7 +230,7 @@
       background: var(--bg-card); border: 1px solid var(--line);
       padding: 3.2rem; transition: border-color 0.3s;
     }
-    .edu-card:hover { border-color: rgba(79,158,255,0.3); }
+    .edu-card:hover { border-color: rgba(106,171,247,0.3); }
     .edu-degree {
       font-family: var(--font-display); font-size: 2rem;
       color: var(--white); line-height: 1.3; margin-bottom: 0.8rem;
@@ -251,7 +248,16 @@
       align-items: flex-start; transition: border-color 0.3s;
     }
     .vol-item:hover { border-color: rgba(167,139,250,0.3); }
-    .vol-icon { font-size: 2.4rem; flex-shrink: 0; margin-top: 0.4rem; }
+    .vol-icon {
+      flex-shrink: 0; margin-top: 0.2rem;
+      width: 4rem; height: 4rem;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(106,171,247,0.08);
+      border: 1px solid rgba(106,171,247,0.15);
+      border-radius: 2px;
+      color: var(--accent);
+    }
+    .vol-icon svg { width: 2rem; height: 2rem; }
     .vol-role { font-family: var(--font-display); font-size: 2rem; color: var(--white); margin-bottom: 0.6rem; }
     .vol-desc { color: var(--muted); font-size: 1.55rem; line-height: 1.7; }
 
@@ -270,8 +276,11 @@
       text-decoration: none; transition: all 0.2s; min-width: 17rem;
     }
     .contact-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .contact-card-icon { font-size: 2rem; display: flex; align-items: center; justify-content: center; height: 2.4rem; }
-    .contact-card-icon svg { width: 2.2rem; height: 2.2rem; color: currentColor; }
+    .contact-card-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 3.2rem; height: 3.2rem; color: var(--accent);
+    }
+    .contact-card-icon svg { width: 2.2rem; height: 2.2rem; }
     .contact-card-label {
       font-family: var(--font-mono); font-size: 1.1rem; color: var(--muted);
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -280,16 +289,10 @@
 
     /* FOOTER */
     footer {
-      border-top: 1px solid var(--line); padding: 3rem 4rem;
-      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--line); padding: 2.4rem 4rem;
+      display: flex; justify-content: center; align-items: center;
     }
-    .footer-copy { font-family: var(--font-mono); font-size: 1.2rem; color: var(--muted); }
-    .footer-links { display: flex; gap: 2.4rem; list-style: none; }
-    .footer-links a {
-      font-family: var(--font-mono); font-size: 1.2rem; color: var(--muted);
-      text-decoration: none; transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-family: var(--font-mono); font-size: 1.1rem; color: var(--muted); }
 
     /* BACK TO TOP */
     .back-to-top {
@@ -306,10 +309,6 @@
       from { opacity: 0; transform: translateY(24px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 1; transform: scaleY(1); }
-      50%       { opacity: 0.4; transform: scaleY(0.8); }
-    }
     .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s, transform 0.7s; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
@@ -320,7 +319,7 @@
       .hero { padding: 10rem 2rem 6rem; }
       .about-grid, .edu-grid { grid-template-columns: 1fr; gap: 4rem; }
       section { padding: 7rem 2rem; }
-      footer { flex-direction: column; gap: 2rem; text-align: center; }
+      footer { padding: 2.4rem 2rem; }
     }
     @media (max-width: 600px) {
       .nav-links { display: none; }
@@ -334,7 +333,6 @@
 
   <!-- NAV -->
   <nav id="nav">
-    <a href="#top" class="nav-logo">nvkb.dev</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
@@ -363,7 +361,6 @@
         </a>
       </div>
     </div>
-
   </section>
 
   <!-- ABOUT -->
@@ -383,8 +380,14 @@
             Outside of academics, I've mentored undergraduate students in mathematics and volunteered at ML workshops because I believe sharing knowledge matters.
           </p>
           <div class="about-links">
-            <a href="mailto:nvkarthik2003@gmail.com" class="contact-pill">✉ nvkarthik2003@gmail.com</a>
-            <a href="https://linkedin.com/in/karthikbalajinv" target="_blank" class="contact-pill">in LinkedIn</a>
+            <a href="mailto:nvkarthik2003@gmail.com" class="contact-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              nvkarthik2003@gmail.com
+            </a>
+            <a href="https://linkedin.com/in/karthikbalajinv" target="_blank" class="contact-pill">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
             <a href="https://github.com/KaeBee2003" target="_blank" class="contact-pill">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
               GitHub
@@ -558,14 +561,27 @@
       <h2 class="section-title reveal">Giving<br><em>back</em></h2>
       <div class="vol-list">
         <div class="vol-item reveal">
-          <div class="vol-icon">📐</div>
+          <div class="vol-icon">
+            <!-- Graduation cap / mentoring icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
           <div>
             <h3 class="vol-role">Mathematics Mentor</h3>
             <p class="vol-desc">Mentored 10+ undergraduate students in mathematics through an academic support initiative at NIT Tiruchirappalli, helping them build confidence and understanding in core quantitative topics.</p>
           </div>
         </div>
         <div class="vol-item reveal">
-          <div class="vol-icon">🤖</div>
+          <div class="vol-icon">
+            <!-- Presentation / workshop icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="13" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+              <path d="M7 8h4M7 12h10"/>
+            </svg>
+          </div>
           <div>
             <h3 class="vol-role">Workshop Volunteer</h3>
             <p class="vol-desc">Supported a Machine Learning workshop for student participants, assisting with hands-on sessions and helping attendees understand practical ML concepts and tools.</p>
@@ -583,18 +599,22 @@
       <p class="contact-subtitle reveal">Open to data analyst roles, research collaborations, and interesting conversations about data.</p>
       <div class="contact-cards reveal">
         <a href="mailto:nvkarthik2003@gmail.com" class="contact-card">
-          <span class="contact-card-icon">✉</span>
+          <span class="contact-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
           <span class="contact-card-label">Email</span>
           <span class="contact-card-value">nvkarthik2003@gmail.com</span>
         </a>
         <a href="https://linkedin.com/in/karthikbalajinv" target="_blank" class="contact-card">
-          <span class="contact-card-icon">in</span>
+          <span class="contact-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </span>
           <span class="contact-card-label">LinkedIn</span>
           <span class="contact-card-value">karthikbalajinv</span>
         </a>
         <a href="https://github.com/KaeBee2003" target="_blank" class="contact-card">
           <span class="contact-card-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
           </span>
           <span class="contact-card-label">GitHub</span>
           <span class="contact-card-value">KaeBee2003</span>
@@ -606,11 +626,6 @@
   <!-- FOOTER -->
   <footer>
     <p class="footer-copy">N V Karthik Balaji · Birmingham, UK</p>
-    <ul class="footer-links">
-      <li><a href="https://github.com/KaeBee2003" target="_blank">GitHub</a></li>
-      <li><a href="https://linkedin.com/in/karthikbalajinv" target="_blank">LinkedIn</a></li>
-      <li><a href="mailto:nvkarthik2003@gmail.com">Email</a></li>
-    </ul>
   </footer>
 
   <a href="#top" class="back-to-top" title="Back to top">
