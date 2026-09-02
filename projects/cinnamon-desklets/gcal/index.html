@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinnamon Desklets – Google Calendar &amp; Tasks | N V Karthik Balaji</title>
+  <meta name="description" content="Official homepage for Cinnamon Desklets: A native Linux Cinnamon desktop widget integrating Google Calendar events and Google Tasks." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0a0d14;
+      --bg-card:   #111520;
+      --line:      rgba(255,255,255,0.07);
+      --accent:    #6aabf7;
+      --accent2:   #a78bfa;
+      --text:      #e8eaf0;
+      --muted:     #7a84a0;
+      --white:     #ffffff;
+      --success:   #4caf50;
+      --font-display: 'DM Serif Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { font-size: 62.5%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.4;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,13,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-left { display: flex; align-items: center; gap: 2rem; }
+    .nav-back {
+      font-family: var(--font-mono); font-size: 1.2rem;
+      text-decoration: none; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-brand {
+      font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .nav-privacy {
+      font-family: var(--font-mono); font-size: 1.2rem;
+      color: var(--accent); border: 1px solid rgba(106,171,247,0.3);
+      padding: 0.6rem 1.4rem; text-decoration: none; border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .nav-privacy:hover { background: rgba(106,171,247,0.1); border-color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 14rem 4rem 8rem;
+      max-width: 120rem; margin: 0 auto;
+    }
+    .app-badge-row { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .app-badge {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent);
+      background: rgba(106,171,247,0.1); border: 1px solid rgba(106,171,247,0.25);
+      padding: 0.4rem 1.2rem; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.15em;
+    }
+    .app-version {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--muted);
+    }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 6vw, 7rem);
+      line-height: 1.1; color: var(--white); margin-bottom: 2rem;
+    }
+    .hero-title em { font-style: italic; color: var(--accent); }
+    .hero-subtitle {
+      font-size: 2rem; color: var(--muted); max-width: 72rem;
+      margin-bottom: 4rem; line-height: 1.6;
+    }
+
+    /* GRID HERO CONTENT */
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 44rem; gap: 6rem; align-items: start;
+    }
+
+    /* DESKLET MOCKUP WIDGET */
+    .desklet-mockup {
+      background: #141824; border: 1px solid rgba(106,171,247,0.25);
+      border-radius: 8px; padding: 2.4rem; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      position: relative; overflow: hidden;
+    }
+    .mockup-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-bottom: 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 2rem;
+    }
+    .mockup-title {
+      font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700;
+      color: var(--white); letter-spacing: 0.05em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .status-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; }
+    .mockup-date { font-family: var(--font-mono); font-size: 1.1rem; color: var(--muted); }
+
+    .mockup-item {
+      padding: 1.4rem; border-radius: 4px; margin-bottom: 1rem;
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.2s;
+    }
+    .mockup-item.task-item {
+      background: rgba(106,171,247,0.07); border-color: rgba(106,171,247,0.2);
+    }
+    .item-left { display: flex; align-items: center; gap: 1.2rem; }
+    .item-icon { width: 1.6rem; height: 1.6rem; flex-shrink: 0; color: var(--accent); }
+    .item-title { font-size: 1.4rem; color: var(--white); font-weight: 500; }
+    .item-sub { font-size: 1.2rem; color: var(--muted); }
+    .item-time { font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent); }
+
+    /* SECTIONS */
+    section { padding: 8rem 4rem; border-top: 1px solid var(--line); }
+    .container { max-width: 120rem; margin: 0 auto; }
+    
+    .section-label {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 4vw, 4.8rem);
+      color: var(--white); line-height: 1.1; margin-bottom: 4rem;
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr)); gap: 2.4rem;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--line);
+      padding: 3rem; border-radius: 4px; transition: border-color 0.3s;
+    }
+    .feature-card:hover { border-color: rgba(106,171,247,0.3); }
+    .feature-icon {
+      width: 4rem; height: 4rem; background: rgba(106,171,247,0.08);
+      border: 1px solid rgba(106,171,247,0.15); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent); margin-bottom: 2rem;
+    }
+    .feature-title { font-family: var(--font-display); font-size: 2.2rem; color: var(--white); margin-bottom: 1rem; }
+    .feature-desc { color: var(--muted); font-size: 1.5rem; line-height: 1.7; }
+
+    /* GOOGLE OAUTH TRANSPARENCY SECTION */
+    .transparency-box {
+      background: rgba(106,171,247,0.03); border: 1px solid rgba(106,171,247,0.2);
+      border-radius: 6px; padding: 4rem; margin-top: 2rem;
+    }
+    .scope-list { display: flex; flex-direction: column; gap: 2rem; margin: 3rem 0; }
+    .scope-item {
+      background: var(--bg-card); border: 1px solid var(--line);
+      padding: 2.4rem; border-radius: 4px; display: flex; gap: 2rem; align-items: flex-start;
+    }
+    .scope-tag {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent);
+      background: rgba(106,171,247,0.1); border: 1px solid rgba(106,171,247,0.25);
+      padding: 0.4rem 1rem; border-radius: 2px; white-space: nowrap; flex-shrink: 0;
+    }
+    .scope-info h4 { font-family: var(--font-mono); font-size: 1.4rem; color: var(--white); margin-bottom: 0.6rem; }
+    .scope-info p { color: var(--muted); font-size: 1.45rem; line-height: 1.6; }
+
+    /* CODE BLOCK */
+    .code-block {
+      background: #07090e; border: 1px solid var(--line); border-radius: 4px;
+      padding: 2rem; font-family: var(--font-mono); font-size: 1.3rem; color: #a78bfa;
+      overflow-x: auto; margin-top: 1.6rem;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--line); padding: 4rem; text-align: center;
+    }
+    .footer-copy { font-family: var(--font-mono); font-size: 1.2rem; color: var(--muted); }
+    .footer-copy a { color: var(--accent); text-decoration: none; }
+    .footer-copy a:hover { text-decoration: underline; }
+
+    @media (max-width: 950px) {
+      nav { padding: 1.8rem 2rem; }
+      .hero { padding: 11rem 2rem 6rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 4rem; }
+      section { padding: 6rem 2rem; }
+      .scope-item { flex-direction: column; gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-left">
+      <a href="/projects/" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Projects Hub
+      </a>
+      <span class="nav-brand">Cinnamon Desklets</span>
+    </div>
+    <a href="/privacy/" class="nav-privacy">Privacy Policy</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="app-badge-row">
+      <span class="app-badge">Application Name: Cinnamon Desklets</span>
+      <span class="app-version">v1.0.0 · Open Source</span>
+    </div>
+    <div class="hero-grid">
+      <div>
+        <h1 class="hero-title">Google Calendar &amp; Tasks <em>for Cinnamon Desktop</em></h1>
+        <p class="hero-subtitle">
+          A native Linux Cinnamon desktop desklet aggregating your upcoming Google Calendar events and Google Tasks into a single, seamless desktop widget.
+        </p>
+        <div style="display: flex; gap: 1.6rem; flex-wrap: wrap;">
+          <a href="/privacy/" class="nav-privacy" style="padding: 1.2rem 2.4rem; font-size: 1.3rem;">
+            Read Privacy Policy
+          </a>
+          <a href="https://github.com/KaeBee2003" target="_blank" style="display: inline-flex; align-items: center; gap: 0.8rem; padding: 1.2rem 2.4rem; border: 1px solid var(--line); color: var(--muted); font-family: var(--font-mono); font-size: 1.3rem; text-decoration: none; border-radius: 2px;">
+            GitHub Repository
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- DESKLET VISUAL MOCKUP -->
+      <div class="desklet-mockup">
+        <div class="mockup-header">
+          <div class="mockup-title">
+            <span class="status-dot"></span>
+            Google Calendar + Tasks
+          </div>
+          <div class="mockup-date">TODAY</div>
+        </div>
+
+        <div class="mockup-item">
+          <div class="item-left">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div>
+              <div class="item-title">Data Science Research Seminar</div>
+              <div class="item-sub">University of Birmingham</div>
+            </div>
+          </div>
+          <div class="item-time">14:00</div>
+        </div>
+
+        <div class="mockup-item task-item">
+          <div class="item-left">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            <div>
+              <div class="item-title">Submit Model Imputation Report</div>
+              <div class="item-sub">Google Task · High Priority</div>
+            </div>
+          </div>
+          <div class="item-time">17:00</div>
+        </div>
+
+        <div class="mockup-item">
+          <div class="item-left">
+            <svg class="item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div>
+              <div class="item-title">Statistical Methods Discussion</div>
+              <div class="item-sub">Online Meeting</div>
+            </div>
+          </div>
+          <div class="item-time">19:30</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section>
+    <div class="container">
+      <p class="section-label">// App Overview</p>
+      <h2 class="section-title">Key Functionality</h2>
+      <div class="features-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <h3 class="feature-title">Chronological View</h3>
+          <p class="feature-desc">
+            Combines events from multiple Google Calendars and active items from Google Tasks into a single chronological desktop list.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h3 class="feature-title">Local Data Security</h3>
+          <p class="feature-desc">
+            All API interactions run client-side on your own device. OAuth tokens are cached locally at <code>~/.config/gcal-desklets</code> and are never transmitted to external servers.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+          </div>
+          <h3 class="feature-title">Silent Token Refresh</h3>
+          <p class="feature-desc">
+            Built-in Python helper handles headless OAuth authorization and automatically refreshes access tokens silently in the background.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- GOOGLE OAUTH TRANSPARENCY & DATA USAGE -->
+  <section>
+    <div class="container">
+      <p class="section-label">// Compliance &amp; Security</p>
+      <h2 class="section-title">Google Data Access &amp; Scope Transparency</h2>
+      <p style="color: var(--muted); font-size: 1.7rem; max-width: 78rem; line-height: 1.8;">
+        <strong>Cinnamon Desklets</strong> explicitly requests access to two Google API scopes to render your schedule on your Linux desktop. Below is full transparency into why each scope is required and how the data is handled.
+      </p>
+
+      <div class="transparency-box">
+        <h3 style="font-family: var(--font-display); font-size: 2.6rem; color: var(--white); margin-bottom: 1.6rem;">
+          Requested Google OAuth Scopes
+        </h3>
+
+        <div class="scope-list">
+          
+          <div class="scope-item">
+            <span class="scope-tag">https://www.googleapis.com/auth/calendar.readonly</span>
+            <div class="scope-info">
+              <h4>Google Calendar Read-Only Access</h4>
+              <p>
+                <strong>Purpose:</strong> Used exclusively to retrieve your upcoming events (titles, start/end times, locations, and calendar colors) so they can be rendered visually inside the desklet on your Cinnamon desktop canvas. No calendar entries are modified or created.
+              </p>
+            </div>
+          </div>
+
+          <div class="scope-item">
+            <span class="scope-tag">https://www.googleapis.com/auth/tasks</span>
+            <div class="scope-info">
+              <h4>Google Tasks API Access</h4>
+              <p>
+                <strong>Purpose:</strong> Used to fetch your active Google Tasks and due dates so they can be displayed inline with your calendar agenda.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <h3 style="font-family: var(--font-display); font-size: 2.4rem; color: var(--white); margin: 3rem 0 1.2rem;">
+          Data Handling &amp; Privacy Guarantees
+        </h3>
+        <ul style="padding-left: 2rem; color: var(--muted); font-size: 1.6rem; line-height: 1.8;">
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--text);">100% Client-Side Operation:</strong> The application does not maintain any backend server or third-party database.</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--text);">Zero Third-Party Sharing:</strong> Your calendar events, task items, and auth credentials are never sold, logged, or shared with third parties.</li>
+          <li style="margin-bottom: 0.8rem;"><strong style="color: var(--text);">Local Credential Storage:</strong> Authorized tokens reside strictly inside <code>~/.config/gcal-desklets/token.json</code> on your Linux machine.</li>
+          <li><strong style="color: var(--text);">Revocation:</strong> Access can be revoked at any time via your <a href="https://myaccount.google.com/permissions" target="_blank" style="color: var(--accent);">Google Account Security Permissions</a>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTALLATION & SETUP -->
+  <section>
+    <div class="container">
+      <p class="section-label">// Setup Guide</p>
+      <h2 class="section-title">Installation &amp; Configuration</h2>
+      <p style="color: var(--muted); font-size: 1.6rem; max-width: 70rem;">
+        Follow these steps to install the desklet on Linux Mint or any Linux distribution running Cinnamon DE:
+      </p>
+
+      <div class="code-block">
+# 1. Clone or place the desklet into your local Cinnamon desklets directory
+cd ~/.local/share/cinnamon/desklets/
+git clone https://github.com/KaeBee2003/gcal-combined@kb.git gcal-combined@kb
+
+# 2. Install required Python dependencies for Google OAuth
+pip3 install google-auth google-auth-oauthlib google-api-python-client
+
+# 3. Add "Google Calendar + Tasks" from Cinnamon Desklets settings
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="footer-copy">
+      Cinnamon Desklets · N V Karthik Balaji · Birmingham, UK · <a href="/privacy/">Privacy Policy</a> · <a href="/projects/">Projects Hub</a>
+    </p>
+  </footer>
+
+</body>
+</html>

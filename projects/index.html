@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects & Software | N V Karthik Balaji</title>
+  <meta name="description" content="Explore open-source software, Linux Cinnamon desklets, and developer tools built by N V Karthik Balaji." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0a0d14;
+      --bg-card:   #111520;
+      --line:      rgba(255,255,255,0.07);
+      --accent:    #6aabf7;
+      --accent2:   #a78bfa;
+      --text:      #e8eaf0;
+      --muted:     #7a84a0;
+      --white:     #ffffff;
+      --font-display: 'DM Serif Display', serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { font-size: 62.5%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.6rem;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1000; opacity: 0.4;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10,13,20,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-back {
+      font-family: var(--font-mono); font-size: 1.2rem;
+      text-decoration: none; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+    .nav-brand {
+      font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* MAIN CONTENT */
+    main { max-width: 110rem; margin: 0 auto; padding: 14rem 4rem 10rem; }
+
+    .page-label {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent);
+      letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.6rem, 5vw, 5.5rem);
+      color: var(--white); line-height: 1.1; margin-bottom: 1.6rem;
+    }
+    h1 em { font-style: italic; color: var(--accent); }
+    
+    .intro {
+      color: var(--muted); font-size: 1.8rem; line-height: 1.8;
+      margin-bottom: 6rem; max-width: 75rem;
+    }
+
+    /* CATEGORY HEADER */
+    .category-title {
+      font-family: var(--font-display); font-size: 3rem; color: var(--white);
+      margin-bottom: 1rem; display: flex; align-items: center; gap: 1.2rem;
+    }
+    .category-badge {
+      font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent);
+      background: rgba(106,171,247,0.1); border: 1px solid rgba(106,171,247,0.25);
+      padding: 0.4rem 1rem; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .category-desc { color: var(--muted); font-size: 1.6rem; margin-bottom: 3.2rem; max-width: 70rem; }
+
+    /* PROJECTS GRID */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(45rem, 1fr));
+      gap: 3rem; margin-bottom: 8rem;
+    }
+
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--line);
+      padding: 3.6rem; border-radius: 4px; display: flex; flex-direction: column;
+      position: relative; transition: all 0.3s;
+    }
+    .project-card:hover { border-color: rgba(106,171,247,0.35); transform: translateY(-4px); }
+    
+    .project-tag-row { display: flex; gap: 0.8rem; margin-bottom: 1.6rem; flex-wrap: wrap; }
+    .tag {
+      padding: 0.4rem 1rem; background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line); color: var(--accent);
+      font-family: var(--font-mono); font-size: 1.1rem; border-radius: 2px;
+    }
+
+    .project-title {
+      font-family: var(--font-display); font-size: 2.6rem;
+      color: var(--white); line-height: 1.2; margin-bottom: 1.4rem;
+    }
+    .project-desc {
+      color: var(--muted); font-size: 1.55rem; line-height: 1.75;
+      margin-bottom: 2.8rem; flex: 1;
+    }
+
+    .project-ctas {
+      display: flex; gap: 1.4rem; flex-wrap: wrap; margin-top: auto;
+      padding-top: 2rem; border-top: 1px solid var(--line);
+    }
+    .btn-small-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 1rem 2rem; background: var(--accent); color: #000;
+      font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700;
+      text-decoration: none; transition: all 0.2s; border-radius: 2px;
+    }
+    .btn-small-primary:hover { background: var(--white); transform: translateY(-1px); }
+
+    .btn-small-outline {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 1.0rem 2rem; border: 1px solid var(--line);
+      color: var(--muted); font-family: var(--font-mono); font-size: 1.2rem;
+      text-decoration: none; transition: all 0.2s; border-radius: 2px;
+    }
+    .btn-small-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--line); padding: 4rem; text-align: center;
+    }
+    .footer-copy { font-family: var(--font-mono); font-size: 1.2rem; color: var(--muted); }
+    .footer-copy a { color: var(--accent); text-decoration: none; }
+    .footer-copy a:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.8rem 2rem; }
+      main { padding: 11rem 2rem 6rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Home Portfolio
+    </a>
+    <span class="nav-brand">N V Karthik Balaji</span>
+  </nav>
+
+  <main>
+    <p class="page-label">// Software &amp; Utilities</p>
+    <h1>Projects &amp; <em>Applications</em></h1>
+    <p class="intro">
+      A collection of open-source desktop applications, Linux Cinnamon desklets, and software tools built to enhance productivity and workflow efficiency.
+    </p>
+
+    <!-- SECTION 1: CINNAMON DESKLETS -->
+    <div style="margin-top: 2rem;">
+      <h2 class="category-title">
+        Cinnamon Desklets
+        <span class="category-badge">Linux Mint / Cinnamon</span>
+      </h2>
+      <p class="category-desc">
+        Native widgets for Linux Cinnamon Desktop Environment providing real-time data feeds, event tracking, and personal productivity features directly on your desktop canvas.
+      </p>
+
+      <div class="projects-grid">
+        
+        <!-- GCAL DESKLET CARD -->
+        <div class="project-card">
+          <div class="project-tag-row">
+            <span class="tag">Google OAuth 2.0</span>
+            <span class="tag">Calendar &amp; Tasks</span>
+            <span class="tag">Linux Cinnamon</span>
+          </div>
+          <h3 class="project-title">Google Calendar + Tasks Desklet (GCal)</h3>
+          <p class="project-desc">
+            A combined Linux Cinnamon desklet displaying upcoming Google Calendar events and Google Tasks in a clean, chronological desktop view. Features OAuth 2.0 authentication, local token caching, auto-refresh, and customized theme support.
+          </p>
+          <div class="project-ctas">
+            <a href="/projects/cinnamon-desklets/gcal/" class="btn-small-primary">
+              App Homepage &amp; Details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="/privacy/" class="btn-small-outline">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+
+        <!-- WINTENMENU APPLETS / DESKLETS CARD -->
+        <div class="project-card" style="opacity: 0.85;">
+          <div class="project-tag-row">
+            <span class="tag">Cinnamon Applet</span>
+            <span class="tag">JavaScript / St</span>
+            <span class="tag">Desktop Widgets</span>
+          </div>
+          <h3 class="project-title">WinTenMenu &amp; Quote Desklet</h3>
+          <p class="project-desc">
+            A custom Cinnamon menu applet and desktop quote tile featuring smooth hover transitions, clean typography, custom quote triggers, and configurable widget layouts.
+          </p>
+          <div class="project-ctas">
+            <span class="btn-small-outline" style="cursor: default; opacity: 0.6;">Documentation coming soon</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="footer-copy">N V Karthik Balaji · Birmingham, UK · <a href="/">Portfolio</a> · <a href="/privacy/">Privacy Policy</a></p>
+  </footer>
+
+</body>
+</html>
